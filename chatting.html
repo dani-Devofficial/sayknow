@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sayknow Chat</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 0; padding: 0; display:flex; flex-direction:column; height:100vh; }
+    .container { max-width:800px; margin:auto; display:flex; flex-direction:column; height:100%; padding:16px; box-sizing:border-box; }
+    .messages { flex:1; overflow:auto; border:1px solid #ddd; padding:12px; border-radius:8px; background:#fafafa; }
+    .msg { margin-bottom:10px; }
+    .msg.user { text-align:right; }
+    .bubble { display:inline-block; padding:8px 12px; border-radius:12px; max-width:70%; }
+    .bubble.user { background:#007bff; color:#fff; }
+    .bubble.ai { background:#f1f1f1; color:#111; }
+    .controls { display:flex; gap:8px; margin-top:12px; }
+    input[type="text"] { flex:1; padding:10px; border:1px solid #ccc; border-radius:8px; }
+    button { padding:10px 14px; border-radius:8px; border:0; background:#007bff; color:#fff; cursor:pointer; }
+    .meta { font-size:12px; color:#666; margin-bottom:8px; }
+    .loading { font-style:italic; color:#666; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sayknow Ai</h2>
+    <div class="meta">서버를 라즈베리 파이로 돌리고 있기 때문에 간혹 서버와 연결을 실패할 수 있습니다.</div>
+
+    <div id="messages" class="messages" aria-live="polite"></div>
+
+    <div class="controls">
+      <input id="input" type="text" placeholder="물어볼 말을 입력하세요 (Enter로 전송)" />
+      <button id="send">전송</button>
+    </div>
+    <div style="margin-top:8px;">
+      <small class="meta">ai는 실수를 할 수 있습니다. 중요한 정보는 한번 더 확인하세요! </small>
+    </div>
+  </div>
+
+<script>
+const API_BASE = 'https://sayknow-rest.ggm.kr/chatdata.html'; // 변경: 프록시를 사용하는 경우 프록시 URL로 바꿔주세요
+const messagesEl = document.getElementById('messages');
+const inputEl = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function appendMessage(text, who='ai') {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'msg ' + (who === 'user' ? 'user' : 'ai');
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble ' + (who === 'user' ? 'user' : 'ai');
+  bubble.innerHTML = escapeHtml(text).replace(/\n/g, '<br/>');
+  wrapper.appendChild(bubble);
+  messagesEl.appendChild(wrapper);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function setLoading(on) {
+  if (on) {
+    const el = document.createElement('div');
+    el.className = 'msg ai loading';
+    el.id = 'loading-indicator';
+    el.innerHTML = '<div class="bubble ai">응답을 기다리는 중...</div>';
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  } else {
+    const lo = document.getElementById('loading-indicator');
+    if (lo) lo.remove();
+  }
+}
+
+async function sendAsk(text) {
+  if (!text.trim()) return;
+  appendMessage(text, 'user');
+  inputEl.value = '';
+  setLoading(true);
+
+  // GET 방식으로 ask 파라미터 전송 (요청형태는 제공하신 URL 예시에 맞춤)
+  const url = API_BASE + '?ask=' + encodeURIComponent(text);
+
+  try {
+    const res = await fetch(url, { method: 'GET', mode: 'cors' });
+    let body;
+    const ct = res.headers.get('content-type') || '';
+    if (ct.includes('application/json')) {
+      const json = await res.json();
+      // 서버가 { answer: "..." } 형태로 주는 경우에 대응
+      if (typeof json === 'object' && json !== null) {
+        if (json.answer) body = String(json.answer);
+        else body = JSON.stringify(json, null, 2);
+      } else {
+        body = String(json);
+      }
+    } else {
+      body = await res.text();
+    }
+
+    setLoading(false);
+    if (!res.ok) {
+      appendMessage('오류: 서버 응답 상태 ' + res.status + '\n' + body, 'ai');
+    } else {
+      appendMessage(body, 'ai');
+    }
+  } catch (err) {
+    setLoading(false);
+    appendMessage('네트워크 또는 CORS 오류: ' + err.message, 'ai');
+  }
+}
+
+sendBtn.addEventListener('click', () => sendAsk(inputEl.value));
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendAsk(inputEl.value);
+  }
+});
+</script>
+</body>
+</html>
