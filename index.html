@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>sayknow — 채팅형 AI</title>
+		<meta name="description" content="sayknow: 간단하고 안전한 채팅형 AI 서비스" />
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+		<style>
+			:root{--bg1:#0f172a;--bg2:#0b1220;--accent:#7c3aed;--muted:rgba(255,255,255,0.7)}
+			*{box-sizing:border-box}
+			html,body{height:100%}
+			body{margin:0;font-family:'Noto Sans KR',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#fff;background:linear-gradient(180deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
+			.container{max-width:1100px;margin:0 auto;padding:48px 24px;display:flex;flex-direction:column;min-height:100vh}
+			header{display:flex;align-items:center;justify-content:space-between}
+			.logo{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.125rem}
+			.mark{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:inline-grid;place-items:center;font-weight:700}
+			nav a{color:var(--muted);text-decoration:none;margin-left:18px}
+			main{display:flex;align-items:center;gap:48px;flex:1;padding-top:40px}
+			.hero{max-width:640px}
+			h1{font-size:clamp(1.8rem,4vw,3rem);margin:0 0 12px}
+			p.lead{color:var(--muted);margin:0 0 24px;font-size:1.05rem;line-height:1.6}
+			.buttons{display:flex;gap:12px;flex-wrap:wrap}
+			.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:10px;text-decoration:none;font-weight:600}
+			.btn.primary{background:linear-gradient(90deg,#7c3aed,#06b6d4);color:white;box-shadow:0 6px 24px rgba(12,11,29,0.6)}
+			.btn.ghost{border:1px solid rgba(255,255,255,0.08);color:var(--muted);background:transparent}
+			.screenshot{flex:1;min-height:280px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center}
+			.screenshot .mock{width:92%;height:72%;border-radius:10px;background:linear-gradient(180deg,#021022,#05142a);display:flex;flex-direction:column;padding:18px}
+			footer{padding:28px 0 12px;color:rgba(255,255,255,0.45);font-size:0.95rem;text-align:center}
+			@media(max-width:840px){main{flex-direction:column}.screenshot{order:-1;width:100%}.container{padding:28px}}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="logo">
+					<div class="mark">SK</div>
+					<div>
+						<div>sayknow</div>
+						<div style="font-size:0.75rem;color:var(--muted);margin-top:2px">채팅형 AI</div>
+					</div>
+				</div>
+				<nav>
+					<a href="terms.html">약관</a>
+					<a href="chatting.html">시연</a>
+				</nav>
+			</header>
+
+			<main>
+				<section class="hero">
+					<h1>간단하게 말해보세요. 말하면 알게 되는 AI, sayknow</h1>
+					<p class="lead">sayknow은 자연스러운 대화로 질문하고 답을 얻는 채팅형 AI 서비스입니다. 개인정보 보호와 간결한 UX에 집중해 누구나 쉽게 사용할 수 있습니다.</p>
+					<div class="buttons">
+						<a class="btn primary" href="terms.html" aria-label="서비스 시작하기">시작하기</a>
+					</div>
+				</section>
+
+				<aside class="screenshot" aria-hidden="true">
+					<div class="mock">
+						<div style="height:36px;background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:12px"></div>
+						<div style="flex:1;background:linear-gradient(180deg,#021827,#072b3e);border-radius:8px;padding:12px;color:rgba(255,255,255,0.85);font-size:0.95rem">sayknow 채팅 인터페이스 미리보기</div>
+						<div style="height:42px;margin-top:12px;background:rgba(255,255,255,0.02);border-radius:8px"></div>
+					</div>
+				</aside>
+			</main>
+
+			<footer>
+				제작자 :
+			</footer>
+		</div>
+	</body>
+</html>
