@@ -1,13 +1,93 @@
-<html>
+<!doctype html>
+<html lang="ko">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Sayknow 약관 동의</title>
-    <meta charset="utf=8">
-    <dani.desc="sayknow 약관 동의 창">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg:#0f1724;
+        --card:#0b1220;
+        --accent:#7c3aed;
+        --muted:#9aa4b2;
+        --glass: rgba(255,255,255,0.03);
+      }
+      html,body{height:100%;}
+      body{
+        margin:0; font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        background: linear-gradient(180deg,#071226 0%, #0b1220 60%);
+        color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:32px;
+      }
+      .container{width:100%;max-width:880px}
+      header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+      .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4f46e5);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;box-shadow:0 6px 18px rgba(12,12,30,0.6)}
+      h1{font-size:20px;margin:0}
+      p.lead{margin:0;color:var(--muted);font-size:14px}
+
+      .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.6);padding:24px;border:1px solid rgba(255,255,255,0.03)}
+      .terms{max-height:360px;overflow:auto;padding:12px;background:var(--glass);border-radius:8px;border:1px solid rgba(255,255,255,0.02);color:#dbeafe}
+      .terms h3{margin-top:0}
+      .muted{color:var(--muted);font-size:13px}
+      .actions{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
+      button{padding:10px 16px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+      .btn-accept{background:linear-gradient(90deg,var(--accent),#4f46e5);color:white}
+      .btn-cancel{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
+      footer{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
+
+      @media (max-width:520px){
+        body{padding:18px}
+        .terms{max-height:280px}
+        header{gap:12px}
+      }
+    </style>
   </head>
   <body>
-    <h1>Sayknow 약관 동의</h1>
-    <h3>Sayknow는 초등학생이 만들었으며, 오류가 많을 수 있습니다.</h3></br>
-    <h3>sayknow의 말을 100% 믿어서 생기는 문제는 사용자에게 있습니다.</h3></br>
-    
+    <div class="container">
+      <header>
+        <div class="logo">SK</div>
+        <div>
+          <h1>Sayknow 약관 동의</h1>
+          <p class="lead">간단하고 읽기 쉬운 약관 안내입니다. 안전하게 사용하세요.</p>
+        </div>
+      </header>
+
+      <main class="card" role="main">
+        <section class="terms" aria-label="서비스 약관">
+          <h3>중요 안내</h3>
+          <p class="muted">Sayknow는 초등학생이 만든 프로젝트이며, 오류가 있을 수 있습니다. 아래 내용을 숙지하고 동의해 주세요.</p>
+
+          <h4>1. 정보 정확성</h4>
+          <p>Sayknow의 응답은 참고용입니다. 정보의 정확성은 보장되지 않으며, 중요한 결정에 사용할 때는 추가 확인을 권장합니다.</p>
+
+          <h4>2. 책임 제한</h4>
+          <p>Sayknow 사용으로 인해 발생하는 직접적·간접적 손해에 대해 제작자는 책임을 지지 않습니다. 사용자는 결과에 대해 스스로 책임집니다.</p>
+
+          <h4>3. 개인정보</h4>
+          <p>개인정보를 민감하게 다루지 마세요. 본 서비스는 개인정보를 수집하지 않습니다(로컬 환경에서만 사용 권장).</p>
+
+          <h4>4. 기타</h4>
+          <p>이 약관은 간단 안내이며, 더 자세한 정책이 필요하면 관리자에게 문의하세요.</p>
+
+          <p class="muted">최종 수정: 2025-12-20</p>
+        </section>
+
+        <div class="actions">
+          <button class="btn-cancel" id="btn-cancel">취소</button>
+          <button class="btn-accept" id="btn-accept">동의합니다</button>
+        </div>
+        <footer>이 서비스를 사용하는 것은 위 내용을 읽고 동의하는 것으로 간주됩니다.</footer>
+      </main>
+    </div>
+
+    <script>
+      document.getElementById('btn-accept').addEventListener('click', ()=>{
+        window.location.href = './chatting-terms-ok.html';
+      });
+      document.getElementById('btn-cancel').addEventListener('click', ()=>{
+        history.back();
+      });
+    </script>
   </body>
 </html>
